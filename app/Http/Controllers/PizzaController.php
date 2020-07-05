@@ -9,8 +9,6 @@ class PizzaController extends Controller
 {
     public function index()
     {
-        //$pizzas = Pizza::orderBy('price','asc')->get();
-        //$pizzas = Pizza::where('price', '500')->get();
         $pizzas = Pizza::latest()->get();
         return view('pizzas.index', ['pizzas' => $pizzas]);
     }
@@ -22,5 +20,16 @@ class PizzaController extends Controller
 
     public function create(){
         return view('pizzas.create');
+    }
+
+    public function store(){
+        $pizza = new Pizza();
+        $pizza->name = request('name');
+        $pizza->type = request('type');
+        $pizza->base = request('base');
+
+        $pizza->save();
+
+        return redirect('/')->with('mssg','Thanks for your order');
     }
 }
